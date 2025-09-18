@@ -25,7 +25,8 @@
 	const sponsorCategories: Record<CategoryKey, Sponsor[]> = {
 		supporters: [
 			{ image: '/sponsors/aseprite.png', name: 'Aseprite', url: 'https://aseprite.org' },
-			{ image: '/sponsors/algopro.png', name: 'AlgoPro', url: 'https://algopro.hu' }
+			{ image: '/sponsors/algopro.png', name: 'AlgoPro', url: 'https://algopro.hu' },
+			{ image: '/sponsors/bpslogo.svg', name: 'Budapest School', url: 'https://budapestschool.org' }
 		],
 		bronze: [
 			// { image: "/example/logo3.png", name: "Silver Innovations", url: "#" },
