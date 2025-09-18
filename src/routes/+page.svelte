@@ -1000,7 +1000,7 @@ Mumbai`.split('\n');
 		style="mask-image: url('/buildings-front.png'); mask-size: contain; mask-repeat: no-repeat; mask-position: center top; -webkit-mask-image: url('/buildings-front.png'); -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; -webkit-mask-position: center top;"
 	></div>
 	<div
-		class="hero-ui-parallax flex flex-col items-center justify-center text-center relative z-5 -translate-y-2"
+		class="hero-ui-parallax flex flex-col items-center justify-center text-center relative z-40 -translate-y-2"
 	>
 		<div class="inline-block relative">
 			<div class="h-12"></div>
