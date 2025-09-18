@@ -931,6 +931,18 @@ Mumbai`.split('\n');
 	<meta name="robots" content="index, follow" />
 	<meta name="author" content="Daydream Budapest" />
 	<link rel="canonical" href={currentUrl} />
+
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=AW-832133096"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag('js', new Date());
+
+		gtag('config', 'AW-832133096');
+	</script>
 </svelte:head>
 
 <div
