@@ -6,8 +6,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 	if (pathname.startsWith('/relay-kHiw')) {
 		// Determine target hostname based on static or dynamic ingestion
 		const hostname = pathname.startsWith('/relay-kHiw/static/')
-			? 'us-assets.i.posthog.com' // change us to eu for EU Cloud
-			: 'us.i.posthog.com'; // change us to eu for EU Cloud
+			? 'eu-assets.i.posthog.com' // change us to eu for EU Cloud
+			: 'eu.i.posthog.com'; // change us to eu for EU Cloud
 
 		// Build external URL
 		const url = new URL(event.request.url);
