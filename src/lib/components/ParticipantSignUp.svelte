@@ -37,6 +37,12 @@
 		const email = emailInput.value;
 		posthog.identify(email);
 		posthog.capture('signup', { email });
+		window.gtag('event', 'conversion', {
+			send_to: 'AW-832133096/83rkCMfe2JYbEOiv5YwD',
+			value: 1.0,
+			currency: 'HUF',
+			event_callback: () => {}
+		});
 
 		if (email) {
 			if (signupLink.includes('?')) {
