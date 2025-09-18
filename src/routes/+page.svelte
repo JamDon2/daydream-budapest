@@ -84,9 +84,6 @@
 
 	const translations: Record<Lang, Record<string, string>> = {
 		en: {
-			'page.title': 'Daydream {eventName} - {eventLocation} Game Jam',
-			'page.description':
-				"Join Daydream {eventName} in {eventLocation}! A teen-led game jam where you'll build amazing games with other high schoolers. Food, workshops, and prizes included!",
 			'hero.date': 'September 27th & 28th, 2025',
 			'hero.tagline': 'Game jam for high schoolers',
 			'hero.organizedBy': 'Organized by Teenagers in {eventLocationNbsp}',
@@ -136,8 +133,6 @@
 				'ANY type of game based on the theme! Platformer, visual novel, clicker game, etc. Be as creative as possible!'
 		},
 		hu: {
-			'page.description':
-				'Jelentkezz a Daydream {eventName}re! Egy diákok által tartott game jam, ahol szuper játékokat fogsz készíteni más diákokkal. És természetesen ingyen étel, workshopok és díjak!',
 			'hero.date': '2025. szeptember 27-28.',
 			'hero.tagline': 'Game jam diákoknak,',
 			'hero.organizedBy': 'Diákok szervezésével',
@@ -224,13 +219,11 @@
 	});
 
 	// Get current URL for dynamic metadata
-	$: currentUrl = `https://daydream.hackclub.com${$page.url.pathname}`;
-	$: pageTitle = t('page.title', { eventName, eventLocation }, lang);
-	$: pageDescription = t('page.description', { eventName, eventLocation }, lang);
-	$: pageKeywords = `game jam, hackathon, teen coding, Hack Club, game development, ${eventLocation}, ${eventName}`;
-
-	// Precompute non-breaking-space version for i18n string substitution
-	$: eventLocationNbsp = eventLocation.replaceAll(' ', '&nbsp;');
+	$: currentUrl = `https://daydreambudapest.hu${$page.url.pathname}`;
+	$: pageTitle = 'Daydream Budapest - Game Jam';
+	$: pageDescription =
+		'Jelentkezz a Daydream Budapestre! Egy diákok által tartott game jam, ahol szuper játékokat fogsz készíteni más diákokkal. És természetesen ingyen étel, workshopok és díjak!';
+	$: pageKeywords = `game jam, hackathon, teen coding, Hack Club, game development, budapest, daydream budapest`;
 
 	// Cities where the game jam is happening
 	const cities = `Columbus
@@ -920,9 +913,9 @@ Mumbai`.split('\n');
 	<meta property="og:url" content={currentUrl} />
 	<meta property="og:title" content={pageTitle} />
 	<meta property="og:description" content={pageDescription} />
-	<meta property="og:image" content="https://daydream.hackclub.com/og.png" />
-	<meta property="og:image:width" content="1200" />
-	<meta property="og:image:height" content="630" />
+	<meta property="og:image" content="https://daydreambudapest.hu/og.png" />
+	<meta property="og:image:width" content="1080" />
+	<meta property="og:image:height" content="1080" />
 	<meta property="og:site_name" content="Daydream" />
 
 	<!-- Twitter -->
@@ -930,21 +923,14 @@ Mumbai`.split('\n');
 	<meta property="twitter:url" content={currentUrl} />
 	<meta property="twitter:title" content={pageTitle} />
 	<meta property="twitter:description" content={pageDescription} />
-	<meta property="twitter:image" content="https://daydream.hackclub.com/og-image.png" />
-	<meta property="twitter:creator" content="@hackclub" />
-	<meta property="twitter:site" content="@hackclub" />
+	<meta property="twitter:image" content="https://daydreambudapest.hu/og.png" />
+	<meta property="twitter:creator" content="@daydreambudapest" />
+	<meta property="twitter:site" content="@daydreambudapest" />
 
 	<!-- Additional SEO -->
 	<meta name="robots" content="index, follow" />
-	<meta name="author" content="Hack Club" />
+	<meta name="author" content="Daydream Budapest" />
 	<link rel="canonical" href={currentUrl} />
-
-	<!-- Analytics -->
-	<script
-		defer
-		data-domain="daydream.hackclub.com"
-		src="https://plausible.io/js/script.js"
-	></script>
 </svelte:head>
 
 <div
@@ -1038,7 +1024,7 @@ Mumbai`.split('\n');
 			<h4
 				class="text-2xl opacity-90 mt-2 font-serif bg-gradient-to-b from-[#487DAB] to-[#3F709A] bg-clip-text text-transparent max-sm:text-xl"
 			>
-				{@html t('hero.organizedBy', { eventLocationNbsp }, lang)}
+				{@html t('hero.organizedBy', { eventLocation }, lang)}
 			</h4>
 		</div>
 
