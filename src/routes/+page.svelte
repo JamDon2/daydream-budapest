@@ -86,7 +86,7 @@
 		en: {
 			'hero.date': 'September 27th & 28th, 2025',
 			'hero.tagline': 'Game jam for high schoolers',
-			'hero.organizedBy': 'Organized by Teenagers in {eventLocationNbsp}',
+			'hero.organizedBy': 'Organized by Teenagers in Budapest',
 			'schedule.title': 'Schedule Reveal',
 			'schedule.subtitle': 'Schedule will be revealed in:',
 			'countdown.days': 'days',
