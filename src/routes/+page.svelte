@@ -42,11 +42,41 @@
 		]
 	};
 
+	const scheduleData: {
+		titleKey: string;
+		items: { eventKey: string; minutesSinceMidnight: number }[];
+	}[] = [
+		{
+			titleKey: 'schedule.saturday',
+			items: [
+				{ eventKey: 'schedule.doors_open', minutesSinceMidnight: 10 * 60 },
+				{ eventKey: 'schedule.opening_ceremony', minutesSinceMidnight: 10 * 60 + 30 },
+				{ eventKey: 'schedule.team_formation', minutesSinceMidnight: 10 * 60 + 45 },
+				{ eventKey: 'schedule.start_working', minutesSinceMidnight: 11 * 60 + 15 },
+				{ eventKey: 'schedule.godot_workshop', minutesSinceMidnight: 12 * 60 + 30 },
+				{ eventKey: 'schedule.lunch', minutesSinceMidnight: 13 * 60 + 30 },
+				{ eventKey: 'schedule.dinner', minutesSinceMidnight: 19 * 60 },
+				{ eventKey: 'schedule.midnight_surprise', minutesSinceMidnight: 24 * 60 }
+			]
+		},
+		{
+			titleKey: 'schedule.sunday',
+			items: [
+				{ eventKey: 'schedule.breakfast', minutesSinceMidnight: 8 * 60 + 30 },
+				{ eventKey: 'schedule.submission_period', minutesSinceMidnight: 10 * 60 + 45 },
+				{ eventKey: 'schedule.peer_voting', minutesSinceMidnight: 11 * 60 + 30 },
+				{ eventKey: 'schedule.closing_ceremony', minutesSinceMidnight: 13 * 60 },
+				{ eventKey: 'schedule.event_ends', minutesSinceMidnight: 13 * 60 + 30 }
+			]
+		}
+	];
+
 	// Render order from lowest to highest tier
 	const orderedCategoryKeys: CategoryKey[] = ['gold', 'silver', 'bronze', 'supporters'];
 
 	// Countdown Configuration
 	const scheduleRevealTime = 1758290400 * 1000; // Convert to milliseconds
+	let scheduleRevealed = false;
 	let timeUntilReveal = { days: 0, hours: 0, minutes: 0, seconds: 0 };
 	let countdownInterval: NodeJS.Timeout;
 
@@ -55,6 +85,7 @@
 		const diff = scheduleRevealTime - now;
 
 		if (diff <= 0) {
+			scheduleRevealed = true;
 			timeUntilReveal = { days: 0, hours: 0, minutes: 0, seconds: 0 };
 			return;
 		}
@@ -87,7 +118,8 @@
 			'hero.date': 'September 27th & 28th, 2025',
 			'hero.tagline': 'Game jam for high schoolers',
 			'hero.organizedBy': 'Organized by Teenagers in Budapest',
-			'schedule.title': 'Schedule Reveal',
+			'schedule.title_revealed': 'Schedule',
+			'schedule.title_unrevealed': 'Schedule Reveal',
 			'schedule.subtitle': 'Schedule will be revealed in:',
 			'countdown.days': 'days',
 			'countdown.hours': 'hours',
@@ -130,13 +162,30 @@
 				"We're here to help! Your parents can reach out to us at budapest@daydream.hackclub.com (or to daydream@hackclub.com for general questions).",
 			'faq.q8.title': 'What can I make at Daydream?',
 			'faq.q8.answer':
-				'ANY type of game based on the theme! Platformer, visual novel, clicker game, etc. Be as creative as possible!'
+				'ANY type of game based on the theme! Platformer, visual novel, clicker game, etc. Be as creative as possible!',
+			'schedule.saturday': 'Saturday, September 27th',
+			'schedule.sunday': 'Sunday, September 28th',
+			'schedule.doors_open': 'Doors open',
+			'schedule.opening_ceremony': 'Opening ceremony',
+			'schedule.team_formation': 'Team formation',
+			'schedule.lunch': 'Lunch',
+			'schedule.start_working': 'Start working on your project!',
+			'schedule.godot_workshop': 'Godot workshop',
+			'schedule.dinner': 'Dinner',
+			'schedule.midnight_surprise': '████████',
+			'schedule.breakfast': 'Breakfast',
+			'schedule.submission_period': 'Submission period',
+			'schedule.peer_voting': 'Peer voting',
+			'schedule.closing_ceremony': 'Closing ceremony and awards',
+			'schedule.event_ends': 'Event ends',
+			'schedule.other_events': '...and a few surprises await.'
 		},
 		hu: {
 			'hero.date': '2025. szeptember 27-28.',
 			'hero.tagline': 'Game jam diákoknak,',
 			'hero.organizedBy': 'Diákok szervezésével',
-			'schedule.title': 'Program',
+			'schedule.title_revealed': 'Program',
+			'schedule.title_unrevealed': 'Program',
 			'schedule.subtitle': 'Hamarosan bejelentjük',
 			'countdown.days': 'nap',
 			'countdown.hours': 'óra',
@@ -179,7 +228,21 @@
 				'Segítünk! A szüleid írhatnak nekünk a budapest@daydream.hackclub.com címre (vagy a Hack Clubnak a daydream@hackclub.com címre angolul).',
 			'faq.q8.title': 'Mit készíthetek a Daydreamben?',
 			'faq.q8.answer':
-				'BÁRMILYEN típusú játékot a téma alapján! Platformer, visual novel, clicker játék, stb. Legyél annyira kreatív, amennyire csak tudsz!'
+				'BÁRMILYEN típusú játékot a téma alapján! Platformer, visual novel, clicker játék, stb. Legyél annyira kreatív, amennyire csak tudsz!',
+			'schedule.saturday': '2025. szeptember 27., szombat',
+			'schedule.sunday': '2025. szeptember 28., vasárnap',
+			'schedule.doors_open': 'Ajtónyitás',
+			'schedule.opening_ceremony': 'Megnyitó ceremónia',
+			'schedule.team_formation': 'Csapatalakítás',
+			'schedule.lunch': 'Ebéd',
+			'schedule.start_working': 'Indul a fejlesztés!',
+			'schedule.dinner': 'Vacsora',
+			'schedule.breakfast': 'Reggeli',
+			'schedule.submission_period': 'Játékok beküldése',
+			'schedule.peer_voting': 'Közönségszavazás',
+			'schedule.closing_ceremony': 'Záró ceremónia és díjkiosztás',
+			'schedule.event_ends': 'Zárás',
+			'schedule.other_events': '...és még vár néhány meglepetés.'
 		}
 	};
 
@@ -194,6 +257,25 @@
 			template = template.replaceAll(`{${k}}`, String(v));
 		}
 		return template;
+	}
+
+	function formatTime(minutesSinceMidnight: number, currentLang: Lang = lang): string {
+		const hours = Math.floor(minutesSinceMidnight / 60) % 24;
+		const minutes = minutesSinceMidnight % 60;
+
+		if (currentLang === 'hu') {
+			return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+		} else {
+			if (hours === 0) {
+				return `12:${minutes.toString().padStart(2, '0')} AM`;
+			} else if (hours < 12) {
+				return `${hours}:${minutes.toString().padStart(2, '0')} AM`;
+			} else if (hours === 12) {
+				return `12:${minutes.toString().padStart(2, '0')} PM`;
+			} else {
+				return `${hours - 12}:${minutes.toString().padStart(2, '0')} PM`;
+			}
+		}
 	}
 
 	function handleLanguageChange() {
@@ -1130,7 +1212,7 @@ Mumbai`.split('\n');
 				style="border-bottom: 8px solid #B4B4C5;"
 			>
 				<h2 class="text-4xl font-serif text-[#F0F0FF] text-center">
-					{t('schedule.title', {}, lang)}
+					{t('schedule.title_' + (scheduleRevealed ? 'revealed' : 'unrevealed'), {}, lang)}
 				</h2>
 				<!-- Brush texture overlay for header -->
 				<div
@@ -1148,10 +1230,37 @@ Mumbai`.split('\n');
 				<!-- Schedule Content -->
 				<div class="relative z-10">
 					<div class="text-center px-8 py-8">
-						{#if timeUntilReveal.days === 0 && timeUntilReveal.hours === 0 && timeUntilReveal.minutes === 0 && timeUntilReveal.seconds === 0}
-							<h3 class="text-3xl font-serif font-bold text-[#335969] mb-4">
-								{t('schedule.revealed', {}, lang)}
-							</h3>
+						{#if scheduleRevealed}
+							{#each scheduleData as day, dayIndex}
+								<div
+									class="bg-white/50 py-6 -mx-8 {dayIndex < scheduleData.length - 1 ? 'mb-8' : ''}"
+								>
+									<h3
+										class="text-2xl font-sans font-bold text-[#335969] mb-6 text-center px-8 max-sm:text-xl max-sm:px-4"
+									>
+										{t(day.titleKey, {}, lang)}
+									</h3>
+
+									<div class="max-w-xl mx-auto px-4">
+										{#each day.items as item, index}
+											<div class="flex items-center justify-between py-2">
+												<span class="text-lg font-sans text-[#477783]"
+													>{t(item.eventKey, {}, lang)}</span
+												>
+												<span class="text-lg font-sans text-[#477783]"
+													>{formatTime(item.minutesSinceMidnight, lang)}</span
+												>
+											</div>
+											{#if index < day.items.length - 1}
+												<div class="h-[2px] bg-white/30"></div>
+											{/if}
+										{/each}
+									</div>
+								</div>
+							{/each}
+							<p class="text-md pt-4 text-[#335969] font-medium mt-1">
+								{t('schedule.other_events', {}, lang)}
+							</p>
 						{:else}
 							<h3 class="text-2xl font-sans font-bold text-[#335969] mb-8">
 								{t('schedule.subtitle', {}, lang)}
