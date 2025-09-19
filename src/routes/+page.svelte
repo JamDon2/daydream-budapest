@@ -74,30 +74,6 @@
 	// Render order from lowest to highest tier
 	const orderedCategoryKeys: CategoryKey[] = ['gold', 'silver', 'bronze', 'supporters'];
 
-	// Countdown Configuration
-	const scheduleRevealTime = 1758290400 * 1000; // Convert to milliseconds
-	let scheduleRevealed = false;
-	let timeUntilReveal = { days: 0, hours: 0, minutes: 0, seconds: 0 };
-	let countdownInterval: NodeJS.Timeout;
-
-	function updateCountdown() {
-		const now = Date.now();
-		const diff = scheduleRevealTime - now;
-
-		if (diff <= 0) {
-			scheduleRevealed = true;
-			timeUntilReveal = { days: 0, hours: 0, minutes: 0, seconds: 0 };
-			return;
-		}
-
-		const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-		const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-		const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-		const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-		timeUntilReveal = { days, hours, minutes, seconds };
-	}
-
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -105,9 +81,6 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import ParticipantSignUp from '$lib/components/ParticipantSignUp.svelte';
 	import { page } from '$app/stores';
-
-	/** @type {import('./$types').PageData} */
-	export let data;
 
 	type Lang = 'en' | 'hu';
 	const LANG_STORAGE_KEY = 'lang';
@@ -118,9 +91,7 @@
 			'hero.date': 'September 27th & 28th, 2025',
 			'hero.tagline': 'Game jam for high schoolers',
 			'hero.organizedBy': 'Organized by Teenagers in Budapest',
-			'schedule.title_revealed': 'Schedule',
-			'schedule.title_unrevealed': 'Schedule Reveal',
-			'schedule.subtitle': 'Schedule will be revealed in:',
+			'schedule.title': 'Schedule',
 			'countdown.days': 'days',
 			'countdown.hours': 'hours',
 			'countdown.minutes': 'minutes',
@@ -184,9 +155,7 @@
 			'hero.date': '2025. szeptember 27-28.',
 			'hero.tagline': 'Game jam diákoknak,',
 			'hero.organizedBy': 'Diákok szervezésével',
-			'schedule.title_revealed': 'Program',
-			'schedule.title_unrevealed': 'Program',
-			'schedule.subtitle': 'Hamarosan bejelentjük',
+			'schedule.title': 'Program',
 			'countdown.days': 'nap',
 			'countdown.hours': 'óra',
 			'countdown.minutes': 'perc',
@@ -883,12 +852,6 @@ Mumbai`.split('\n');
 	}
 
 	onMount(() => {
-		console.log('User city:', data.userCity);
-
-		// Start countdown
-		updateCountdown();
-		countdownInterval = setInterval(updateCountdown, 1000);
-
 		// Register GSAP plugins
 		gsap.registerPlugin(ScrollTrigger);
 
@@ -979,7 +942,6 @@ Mumbai`.split('\n');
 			window.removeEventListener('resize', handleResize);
 			document.removeEventListener('visibilitychange', handleVisibilityChange);
 			clearInterval(particleInterval);
-			clearInterval(countdownInterval);
 			ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 		};
 	});
@@ -1212,7 +1174,7 @@ Mumbai`.split('\n');
 				style="border-bottom: 8px solid #B4B4C5;"
 			>
 				<h2 class="text-4xl font-serif text-[#F0F0FF] text-center">
-					{t('schedule.title_' + (scheduleRevealed ? 'revealed' : 'unrevealed'), {}, lang)}
+					{t('schedule.title', {}, lang)}
 				</h2>
 				<!-- Brush texture overlay for header -->
 				<div
@@ -1230,79 +1192,36 @@ Mumbai`.split('\n');
 				<!-- Schedule Content -->
 				<div class="relative z-10">
 					<div class="text-center px-8 py-8">
-						{#if scheduleRevealed}
-							{#each scheduleData as day, dayIndex}
-								<div
-									class="bg-white/50 py-6 -mx-8 {dayIndex < scheduleData.length - 1 ? 'mb-8' : ''}"
+						{#each scheduleData as day, dayIndex}
+							<div
+								class="bg-white/50 py-6 -mx-8 {dayIndex < scheduleData.length - 1 ? 'mb-8' : ''}"
+							>
+								<h3
+									class="text-2xl font-sans font-bold text-[#335969] mb-6 text-center px-8 max-sm:text-xl max-sm:px-4"
 								>
-									<h3
-										class="text-2xl font-sans font-bold text-[#335969] mb-6 text-center px-8 max-sm:text-xl max-sm:px-4"
-									>
-										{t(day.titleKey, {}, lang)}
-									</h3>
+									{t(day.titleKey, {}, lang)}
+								</h3>
 
-									<div class="max-w-xl mx-auto px-4">
-										{#each day.items as item, index}
-											<div class="flex items-center justify-between py-2">
-												<span class="text-lg font-sans text-[#477783]"
-													>{t(item.eventKey, {}, lang)}</span
-												>
-												<span class="text-lg font-sans text-[#477783]"
-													>{formatTime(item.minutesSinceMidnight, lang)}</span
-												>
-											</div>
-											{#if index < day.items.length - 1}
-												<div class="h-[2px] bg-white/30"></div>
-											{/if}
-										{/each}
-									</div>
-								</div>
-							{/each}
-							<p class="text-md pt-4 text-[#335969] font-medium mt-1">
-								{t('schedule.other_events', {}, lang)}
-							</p>
-						{:else}
-							<h3 class="text-2xl font-sans font-bold text-[#335969] mb-8">
-								{t('schedule.subtitle', {}, lang)}
-							</h3>
-							<div class="flex justify-center items-center gap-6 max-sm:gap-3 flex-wrap">
-								<div class="text-center">
-									<div class="text-4xl font-bold text-[#E472AB] font-mono max-sm:text-3xl">
-										{timeUntilReveal.days.toString().padStart(2, '0')}
-									</div>
-									<div class="text-sm text-[#335969] font-medium mt-1">
-										{t('countdown.days', {}, lang)}
-									</div>
-								</div>
-								<div class="text-3xl text-[#335969] max-sm:text-2xl">:</div>
-								<div class="text-center">
-									<div class="text-4xl font-bold text-[#639DEB] font-mono max-sm:text-3xl">
-										{timeUntilReveal.hours.toString().padStart(2, '0')}
-									</div>
-									<div class="text-sm text-[#335969] font-medium mt-1">
-										{t('countdown.hours', {}, lang)}
-									</div>
-								</div>
-								<div class="text-3xl text-[#335969] max-sm:text-2xl">:</div>
-								<div class="text-center">
-									<div class="text-4xl font-bold text-[#AB68E2] font-mono max-sm:text-3xl">
-										{timeUntilReveal.minutes.toString().padStart(2, '0')}
-									</div>
-									<div class="text-sm text-[#335969] font-medium mt-1">
-										{t('countdown.minutes', {}, lang)}
-									</div>
-								</div>
-								<div class="text-3xl text-[#335969] max-sm:text-2xl">:</div>
-								<div class="text-center">
-									<div class="text-4xl font-bold text-[#F2993E] font-mono max-sm:text-3xl">
-										{timeUntilReveal.seconds.toString().padStart(2, '0')}
-									</div>
-									<div class="text-sm text-[#335969] font-medium mt-1">
-										{t('countdown.seconds', {}, lang)}
-									</div>
+								<div class="max-w-xl mx-auto px-4">
+									{#each day.items as item, index}
+										<div class="flex items-center justify-between py-2">
+											<span class="text-lg font-sans text-[#477783]"
+												>{t(item.eventKey, {}, lang)}</span
+											>
+											<span class="text-lg font-sans text-[#477783]"
+												>{formatTime(item.minutesSinceMidnight, lang)}</span
+											>
+										</div>
+										{#if index < day.items.length - 1}
+											<div class="h-[2px] bg-white/30"></div>
+										{/if}
+									{/each}
 								</div>
 							</div>
-						{/if}
+						{/each}
+						<p class="text-md pt-4 text-[#335969] font-medium mt-1">
+							{t('schedule.other_events', {}, lang)}
+						</p>
 					</div>
 				</div>
 			</div>
