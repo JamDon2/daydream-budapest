@@ -26,7 +26,12 @@
 		supporters: [
 			{ image: '/sponsors/aseprite.png', name: 'Aseprite', url: 'https://aseprite.org' },
 			{ image: '/sponsors/algopro.png', name: 'AlgoPro', url: 'https://algopro.hu' },
-			{ image: '/sponsors/bpslogo.svg', name: 'Budapest School', url: 'https://budapestschool.org' }
+			{
+				image: '/sponsors/bpslogo.svg',
+				name: 'Budapest School',
+				url: 'https://budapestschool.org'
+			},
+			{ image: '/sponsors/focus_print.png', name: 'Focus Print', url: 'http://focus.hu' }
 		],
 		bronze: [
 			// { image: "/example/logo3.png", name: "Silver Innovations", url: "#" },
@@ -36,6 +41,7 @@
 		silver: [
 			// { image: "/example/logo6.png", name: "Gold Enterprise", url: "#" },
 			// { image: "/example/logo7.png", name: "Premium Gold Tech", url: "#" },
+			{ image: '/sponsors/focus_creative.png', name: 'Focus Creative', url: 'http://focus.hu' }
 		],
 		gold: [
 			// { image: "/example/logo1.png", name: "Platinum Global Corp", url: "#" },
